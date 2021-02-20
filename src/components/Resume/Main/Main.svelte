@@ -36,5 +36,4 @@
   <Title {name} {title} />
   <Experience {experiences} />
   <Education {education} />
-  <Note {...note} />
 </section>

@@ -127,9 +127,6 @@
   <div class="content">
     <button class="no-print printer" onclick="window.print()">Print</button>
     <div class="no-print">
-      <Note {...resume.note} />
-    </div>
-    <div class="no-print">
       {#if work}
         {#each resume.experiences as experience}
           <Experience {...experience} />
