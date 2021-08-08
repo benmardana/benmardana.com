@@ -3,7 +3,7 @@
 echo "Saving current repo...\n"
 git add .
 git commit -m ${1:-building}
-git push
+git push --force
 
 echo "Building...\n"
 
@@ -33,10 +33,10 @@ echo "Updating git submodule...\n"
 cd benmcgarvey.github.io
 git add .
 git commit -m ${1:-building}
-git push
+git push --force
 
 echo "Updating parent git...\n"
 cd -
 git add .
 git commit -m ${1:-building}
-git push
+git push --force
