@@ -1,8 +1,75 @@
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/*
+  2. Remove default margin
+*/
 * {
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+}
+/*
+  3. Allow percentage-based heights in the application
+*/
+html,
+body {
+  height: 100%;
+}
+/*
+  Typographic tweaks!
+  4. Add accessible line-height
+  5. Improve text rendering
+*/
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+/*
+  6. Improve media defaults
+*/
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  fill: currentColor;
+}
+/*
+  7. Remove built-in form typography styles
+*/
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+/*
+  8. Avoid text overflows
+*/
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
 
+/*
+  My Styles
+*/
+* {
   /* Color scheme */
   --textcolor: #2e3440;
   --bgcolor: #eceff4;
@@ -17,84 +84,75 @@
     hsl(284, 97%, 41%),
     hsl(305, 97%, 41%)
   );
+
+  /* Spacing */
+  --ratio: 1.5;
+  --s0: 1rem;
+  --s1: calc(var(--s0) * var(--ratio));
+  --s2: calc(var(--s1) * var(--ratio));
+  --s3: calc(var(--s2) * var(--ratio));
+  --s4: calc(var(--s3) * var(--ratio));
+  --s5: calc(var(--s4) * var(--ratio));
+  --s-5: calc(var(--s-4) / var(--ratio));
+  --s-4: calc(var(--s-3) / var(--ratio));
+  --s-3: calc(var(--s-2) / var(--ratio));
+  --s-2: calc(var(--s-1) / var(--ratio));
+  --s-1: calc(var(--s0) / var(--ratio));
+
+  /* Page layout */
+  --top-padding: 7vw;
+  --bottom-padding: 4vw;
+  --side-padding: 10vw;
 }
 
 @media (prefers-color-scheme: dark) {
   * {
     --textcolor: #eceff4;
     --bgcolor: #2e3440;
-    --highlight: repeating-linear-gradient(
-      to right,
-      hsl(333, 100%, 59%),
-      hsl(27, 100%, 65%),
-      hsl(50, 100%, 50%),
-      hsl(108, 70%, 58%),
-      hsl(170, 63%, 64%),
-      hsl(233, 63%, 64%),
-      hsl(284, 97%, 41%),
-      hsl(305, 97%, 41%)
-    );
   }
 }
 
 body {
-  font-size: 24px;
-  font-family: system-ui, sans-serif;
-  line-height: 1.4;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   color: var(--textcolor);
   background: var(--bgcolor);
-  position: relative;
-  max-width: 64em; /* remove this for a full-width layout */
-  margin: 0 auto; /* centers the layout */
+  padding-top: var(--top-padding);
+  padding-bottom: var(--bottom-padding);
 }
 
-/* ------- Sections ------- */
-
-section {
-  padding: calc(6em + 5vw) 10vw 8vw 10vw;
-  /* ! Everything below is needed ! */
-  display: none;
-  position: absolute;
-  top: 0;
-  min-height: 100vh;
-  width: 100%;
-  background: var(--bgcolor);
+body > * {
+  max-width: 60ch;
+  margin-left: auto;
+  margin-right: auto;
 }
-
-section:target {
-  /* Show section */
-  display: block;
-}
-
-section#home {
-  /* Show #home by default */
-  display: block;
-}
-
-/* ------- Header ------- */
 
 header {
-  padding: 7vw 10vw 0 10vw;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+
   display: flex;
   flex-wrap: wrap;
-  position: absolute;
-  width: 100%;
-  z-index: 2;
+  align-items: flex-end;
+  justify-content: space-between;
 }
 
-header h1 {
-  font-size: 1em;
-  flex: 1; /* pushes nav to the right */
-  white-space: nowrap;
-  padding: 0 5vw 0.5em 0;
+main {
+  display: flex;
+  flex-direction: column;
 }
 
-nav a:not(:last-of-type) {
-  margin-right: 1.5vw;
+@media screen and (max-width: 767px) {
+  body {
+    padding-left: var(--side-padding);
+    padding-right: var(--side-padding);
+  }
 }
 
-/* ------- General ------- */
-
+p {
+  font-size: 1.4em;
+}
 a {
   position: relative;
   text-decoration: none;
@@ -132,60 +190,20 @@ a:hover {
   }
 }
 
-section h1 {
-  font-size: 1em;
-  margin: 0 0 1em 0;
-}
-
-h2,
-h3,
-h4 {
-  font-size: 1em;
-  font-weight: 600;
-  margin: 1.6em 0 0.6em 0;
-}
-
-p,
-ul,
-ol,
-article {
-  max-width: 60ch; /* Limit line-length to 60 characters */
-  margin-bottom: 0.6em;
-}
-
-ul {
-  list-style-type: none;
-}
-
-ul li::marker {
-  content: "\2022   ";
-  color: currentColor;
-}
-
-li {
-  margin-bottom: 0.2em;
+h1 {
+  margin-top: var(--s3);
+  margin-bottom: var(--s2);
 }
 
 ul,
 ol {
-  padding-left: 2ch;
+  padding-inline-start: 2ch;
 }
 
-b,
-strong {
-  font-weight: 600;
-}
-
-small {
-  font-size: 0.85em;
-}
-
-hr {
-  height: 1px;
-  border: 0;
-  background: currentColor;
-  opacity: 0.1;
-  margin: 1.2em 0;
+br {
+  display: block;
+  content: "";
+  margin-top: var(--s1);
 }
 
 abbr {
@@ -198,8 +216,8 @@ abbr[title]:hover {
 }
 
 blockquote {
-  padding-left: 2ch;
-  opacity: 0.7;
+  padding-inline-start: 1ch;
+  opacity: 0.8;
   margin-bottom: 0.6em;
   position: relative;
 }
@@ -212,47 +230,7 @@ blockquote:before {
   bottom: 0.3em;
   background: currentColor;
   width: 1px;
-  opacity: 0.2;
-}
-
-img,
-svg,
-video,
-audio {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  fill: currentColor;
-}
-
-code,
-textarea {
-  font-family: ui-monospace, SF Mono, Menlo, Monaco, Andale Mono, monospace;
-  font-size: 1em;
-  opacity: 0.7;
-}
-
-a code {
-  opacity: 1;
-}
-
-pre,
-textarea {
-  /* for code samples */
-  font-size: 0.9em;
-  color: inherit;
-  line-height: inherit;
-  padding: 0.6em 0.9em;
-  margin: 0.8em 0 1em 0;
-  position: relative;
-  display: block;
-  width: 100%;
-  white-space: pre;
-  border: 0;
-  border-radius: 4px;
-  background: rgba(255, 255, 100, 0.075);
-  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.2),
-    inset -1px -1px 0 rgba(0, 0, 0, 0.04);
+  opacity: 0.4;
 }
 
 /* Inline footnotes */
@@ -286,43 +264,6 @@ input:checked + small {
   padding: 0.8em 0 1em 2.5vw;
 }
 
-/* Figures */
-
-figure {
-  margin: 2em 0 1.5em 0;
-}
-
-figure figcaption {
-  margin: 0.8em 0 0 0;
-  font-size: 0.85em;
-  opacity: 0.7;
-}
-
-/* Responsive video embeds */
-
-figure.video {
-  position: relative;
-  padding-bottom: 56.25%; /* 16:9 */
-  height: 0;
-  overflow: hidden;
-}
-
-figure.video iframe,
-figure.video object,
-figure.video embed {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  visibility: hidden; /* so loading="lazy" should work? */
-}
-
-section:target iframe {
-  visibility: visible;
-}
-
 /* External links */
 
 a[href*="//"]:after
@@ -343,242 +284,29 @@ a[href*="//"]:hover:after
 
 /* File links */
 
-a:before {
+a:not(.underlined):after {
   font-size: 0.7em;
-  margin-right: 0.4em;
+  margin-inline-start: 0.4em;
 }
 
-/* Add more filetypes here if you want */
-
-a[href$=".pdf"]:before {
+a[href$=".pdf"]:after {
   content: "PDF";
 }
-a[href$=".txt"]:before {
+a[href$=".txt"]:after {
   content: "TXT";
 }
-a[href$=".mp3"]:before {
+a[href$=".mp3"]:after {
   content: "MP3";
 }
-a[href$=".zip"]:before {
+a[href$=".zip"]:after {
   content: "ZIP";
 }
-a[href$=".rar"]:before {
+a[href$=".rar"]:after {
   content: "RAR";
 }
-a[href$=".jpeg"]:before,
-a[href$=".jpg"]:before,
-a[href$=".gif"]:before,
-a[href$=".png"]:before {
+a[href$=".jpeg"]:after,
+a[href$=".jpg"]:after,
+a[href$=".gif"]:after,
+a[href$=".png"]:after {
   content: "IMG";
-}
-
-/* ------- News ------- */
-
-article + article {
-  margin-top: 4.5em;
-}
-
-article h2 {
-  font-weight: 700;
-  margin: 0 0 1em 0;
-}
-
-article time {
-  margin-left: 0.6em;
-  font-size: 0.8em;
-  font-weight: 400;
-  opacity: 0.7;
-}
-
-/* ------- Images Grid ------- */
-
-.grid {
-  display: grid;
-  grid-gap: 5vmin;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(150px, 1fr)
-  ); /* 150px = minimum image size */
-  grid-auto-flow: dense;
-  padding: 2em 0;
-}
-
-.grid a {
-  position: relative;
-  border: 0;
-}
-
-.grid a:hover {
-  transform: scale(0.975);
-}
-
-/* For a square ratio */
-.grid a:before {
-  content: "";
-  display: block;
-  padding-top: 100%;
-}
-
-.grid a img {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* ------- Slideshow ------- */
-
-.slides {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-}
-
-.slides figure {
-  height: 100vh;
-  padding: 0 5vw;
-  margin: 0;
-  display: grid;
-  place-items: center;
-  align-content: center;
-  scroll-snap-align: center;
-}
-
-.slides figure img {
-  max-height: 88vh; /* Adjust if needed */
-}
-
-.slides figure.cover {
-  padding: 0;
-}
-
-.slides figure.cover img {
-  max-height: none;
-  position: absolute;
-  z-index: -1;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-}
-
-/* ------- Lightbox ------- */
-
-.lightbox {
-  display: none;
-  color: var(--textcolor);
-}
-
-.lightbox:target {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: grid;
-  place-items: center;
-  align-content: center;
-  background: var(--bgcolor);
-  border: 0;
-  z-index: 3;
-}
-
-.lightbox img {
-  max-height: 100vh;
-  z-index: 4;
-}
-
-.lightbox:target:before {
-  /* Loading spinner */
-  content: "";
-  height: 2em;
-  width: 2em;
-  animation: spin 0.8s infinite linear;
-  border: 1px solid;
-  border-right-color: transparent;
-  border-radius: 50%;
-  display: block;
-  position: absolute;
-  transform: translateX(-50%);
-  opacity: 0.25;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.lightbox:target:after {
-  /* × to close */
-  content: "\00D7";
-  position: fixed;
-  font-size: 2em;
-  font-weight: 200;
-  line-height: 0;
-  top: 0.75em;
-  right: 0.5em;
-  z-index: 4;
-}
-
-/* ------- Smaller screens ------- */
-
-@media only screen and (max-width: 540px) {
-  nav {
-    width: 100%;
-  } /* Fix for older webkit versions */
-}
-
-/* ------- Print ------- */
-
-@media print {
-  nav,
-  .lightbox:target:after {
-    display: none;
-  }
-
-  article,
-  figure,
-  img {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
-
-  /* Inline footnotes */
-
-  label + input + small {
-    display: inline;
-  }
-  label + input + small:before {
-    content: "[";
-  }
-  label + input + small:after {
-    content: "]";
-  }
-
-  /* Slides */
-
-  .slides,
-  .slides figure {
-    position: relative;
-    height: auto;
-    padding: 0;
-  }
-
-  .slides figure img,
-  .slides figure.cover img {
-    max-height: auto;
-    position: relative;
-    z-index: 1;
-    width: auto;
-    height: 100vh;
-    object-fit: contain;
-  }
 }
