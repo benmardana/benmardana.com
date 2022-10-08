@@ -1,7 +1,5 @@
 # benmcgarvey.com
 
-Inspired by https://github.com/cadars/john-doe
-
 ## Installation
 
 n/a
