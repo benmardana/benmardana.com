@@ -2,18 +2,16 @@
 
 ## Installation
 
-n/a
+```bash
+npm install
+```
 
 ## Dev
 
-Serve with your choice of local server
-
-e.g.
-
 ```bash
-npx vite
+npm run dev
 ```
 
 ## Deployment
 
-Upload to any web server
+This site is deployed on cloudflare pages. Upload to a build folder or link github and push.
