@@ -143,6 +143,10 @@ main {
   flex-direction: column;
 }
 
+section {
+  margin-top: var(--s1);
+}
+
 @media screen and (max-width: 767px) {
   body {
     padding-left: var(--side-padding);
@@ -190,11 +194,6 @@ a:hover {
   }
 }
 
-h1 {
-  margin-top: var(--s3);
-  margin-bottom: var(--s2);
-}
-
 ul,
 ol {
   padding-inline-start: 2ch;
@@ -233,9 +232,30 @@ blockquote:before {
   opacity: 0.4;
 }
 
-/* Inline footnotes */
+details {
+  margin-top: var(--s-1);
+}
+
+details summary {
+  cursor: pointer;
+}
+
+form p {
+  font-size: 1em;
+}
+
+form button {
+  margin-top: var(--s-1);
+}
 
 label {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Inline footnotes */
+
+label.label {
   cursor: pointer;
   vertical-align: super;
   line-height: 1;
@@ -243,14 +263,14 @@ label {
   padding-left: 0.1em;
 }
 
-label:hover {
+label.label:hover {
   color: var(--highlight);
 }
 
-label:before {
+label.label:before {
   content: "[";
 }
-label:after {
+label.label:after {
   content: "]";
 }
 

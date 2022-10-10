@@ -24,7 +24,11 @@ export namespace api {
 
       await persistence.saveManualyticsEvent(manualyticsEvent, KVRepo);
 
-      return new Response("ok");
+      const url = new URL(context.request.url);
+      return Response.redirect(
+        `${url.protocol}//${url.host}/thanks-for-stopping-by`,
+        303
+      );
     } catch (e) {
       console.log({ e });
       return new Response(undefined, {
