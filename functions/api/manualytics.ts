@@ -40,7 +40,6 @@ export namespace api {
         new persistence.ManualyticsEventRepository(
           context.env.ManualyticsEventEnv
         );
-      console.log({ manualyticsEvent });
 
       await manualyticsEventRepository.save(manualyticsEvent);
 
