@@ -1,12 +1,14 @@
 import { core } from "../core/core";
 
 export namespace persistence {
-  interface ManualticsEventRepository {
-    save: (manualyticsEvent: core.ManualyticsEvent) => Promise<void>;
+  interface KVRepository<T> {
+    save: (type: T) => Promise<void>;
     count: () => Promise<number>;
   }
 
-  export class KVRepository implements ManualticsEventRepository {
+  export class ManualyticsEventRepository
+    implements KVRepository<core.ManualyticsEvent>
+  {
     namespace: KVNamespace;
 
     constructor(namespace: KVNamespace) {
@@ -28,7 +30,7 @@ export namespace persistence {
 
   export const saveManualyticsEvent: (
     manualyticsEvent: core.ManualyticsEvent,
-    manualyticsEventRepository: ManualticsEventRepository
+    manualyticsEventRepository: KVRepository<core.ManualyticsEvent>
   ) => Promise<void> = async (manualyticsEvent, manualyticsEventRepository) =>
     manualyticsEventRepository.save(manualyticsEvent);
 }

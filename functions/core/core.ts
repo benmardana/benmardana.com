@@ -7,11 +7,21 @@ export namespace core {
     contact?: string;
   }
 
+  export interface ManualyticsEventInput {
+    ip?: string;
+    cf?: IncomingRequestCfProperties;
+    formData?: {
+      from?: string;
+      message?: string;
+      contact?: string;
+    };
+  }
+
   export const createManualyticsEvent: (
-    request: Request
-  ) => Promise<ManualyticsEvent> = async (request) => ({
-    ip: request.headers.get("CF-Connecting-IP") ?? undefined,
-    ...(request.body ? await request.json() : undefined),
-    ...request.cf,
+    input: ManualyticsEventInput
+  ) => Promise<ManualyticsEvent> = async ({ ip, cf, formData }) => ({
+    ip,
+    ...formData,
+    ...cf,
   });
 }

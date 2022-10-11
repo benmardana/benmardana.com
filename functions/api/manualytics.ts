@@ -1,28 +1,48 @@
 import { core } from "../core/core";
 import { persistence } from "../persistence/persistence";
 
+const belongsToArray = <TValue>(
+  value: unknown,
+  allowedValues: ReadonlyArray<TValue>
+): value is TValue => (allowedValues as ReadonlyArray<unknown>).includes(value);
+
 export namespace api {
-  type FormDataFields = {
-    from?: string;
-    message?: string;
-    contact?: string;
+  const formFields = ["from", "message", "contact"] as const;
+  type FormDataFields = Partial<Record<typeof formFields[number], string>>;
+
+  const parseFormData = (formData: FormData) => {
+    const response: FormDataFields = {};
+    for (const [key, value] of formData.entries()) {
+      if (
+        typeof value === "string" &&
+        value.length > 1 &&
+        belongsToArray(key, formFields)
+      ) {
+        response[key] = value;
+      }
+    }
+    return response;
   };
 
-  export const onRequestGet: PagesFunction<
-    { ManualyticsEventEnv: KVNamespace },
-    never,
-    FormDataFields
-  > = async (context) => {
+  export const onRequestPost: PagesFunction<{
+    ManualyticsEventEnv: KVNamespace;
+  }> = async (context) => {
     try {
-      const manualyticsEvent = await core.createManualyticsEvent(
-        context.request
-      );
+      const formData = parseFormData(await context.request.formData());
 
-      const KVRepo = new persistence.KVRepository(
-        context.env.ManualyticsEventEnv
-      );
+      const manualyticsEvent = await core.createManualyticsEvent({
+        ip: context.request.headers.get("CF-Connecting-IP") ?? undefined,
+        cf: context.request.cf,
+        formData,
+      });
 
-      await persistence.saveManualyticsEvent(manualyticsEvent, KVRepo);
+      const manualyticsEventRepository =
+        new persistence.ManualyticsEventRepository(
+          context.env.ManualyticsEventEnv
+        );
+      console.log({ manualyticsEvent });
+
+      await manualyticsEventRepository.save(manualyticsEvent);
 
       const url = new URL(context.request.url);
       return Response.redirect(
@@ -39,4 +59,4 @@ export namespace api {
   };
 }
 
-export const onRequestGet = api.onRequestGet;
+export const onRequestPost = api.onRequestPost;
