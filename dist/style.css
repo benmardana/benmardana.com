@@ -266,6 +266,15 @@ label {
   flex-direction: column;
 }
 
+fieldset label {
+  display: flex;
+  flex-direction: row;
+}
+
+fieldset label input {
+  margin-right: var(--s-2);
+}
+
 details > * + * {
   margin-block-start: var(--s-2);
 }

@@ -7,7 +7,7 @@ const belongsToArray = <TValue>(
 ): value is TValue => (allowedValues as ReadonlyArray<unknown>).includes(value);
 
 export namespace api {
-  const formFields = ["from", "message", "contact"] as const;
+  const formFields = ["from", "message", "contact", "ip", "location"] as const;
   type FormDataFields = Partial<Record<typeof formFields[number], string>>;
 
   const parseFormData = (formData: FormData): FormDataFields => {
@@ -28,20 +28,17 @@ export namespace api {
     ManualyticsEventEnv: KVNamespace;
   }> = async (context) => {
     try {
-      const ip = context.request.headers.get("CF-Connecting-IP") ?? undefined;
-      const { city, continent, country, postalCode, region, timezone } =
-        context.request.cf ?? {};
       const formData = parseFormData(await context.request.formData());
+      const ip = formData.ip
+        ? context.request.headers.get("CF-Connecting-IP") ?? undefined
+        : undefined;
+      const location: IncomingRequestCfProperties | undefined =
+        formData.location ? context.request.cf ?? undefined : undefined;
 
       const manualyticsEvent = await core.createManualyticsEvent({
         ip,
-        city,
-        continent,
-        country,
-        postalCode,
-        region,
-        timezone,
         formData,
+        ...location,
       });
 
       const manualyticsEventRepository =
