@@ -1,7 +1,12 @@
 export namespace core {
-  export interface ManualyticsEvent
-    extends Partial<IncomingRequestCfProperties> {
+  export interface ManualyticsEvent {
     ip?: string;
+    city?: string;
+    continent?: string;
+    country?: string;
+    postalCode?: string;
+    region?: string;
+    timezone?: string;
     from?: string;
     message?: string;
     contact?: string;
@@ -9,7 +14,12 @@ export namespace core {
 
   export interface ManualyticsEventInput {
     ip?: string;
-    cf?: IncomingRequestCfProperties;
+    city?: string;
+    continent?: string;
+    country?: string;
+    postalCode?: string;
+    region?: string;
+    timezone?: string;
     formData?: {
       from?: string;
       message?: string;
@@ -19,9 +29,8 @@ export namespace core {
 
   export const createManualyticsEvent: (
     input: ManualyticsEventInput
-  ) => Promise<ManualyticsEvent> = async ({ ip, cf, formData }) => ({
-    ip,
+  ) => Promise<ManualyticsEvent> = async ({ formData, ...rest }) => ({
     ...formData,
-    ...cf,
+    ...rest,
   });
 }

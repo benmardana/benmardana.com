@@ -10,7 +10,7 @@ export namespace api {
   const formFields = ["from", "message", "contact"] as const;
   type FormDataFields = Partial<Record<typeof formFields[number], string>>;
 
-  const parseFormData = (formData: FormData) => {
+  const parseFormData = (formData: FormData): FormDataFields => {
     const response: FormDataFields = {};
     for (const [key, value] of formData.entries()) {
       if (
@@ -28,11 +28,19 @@ export namespace api {
     ManualyticsEventEnv: KVNamespace;
   }> = async (context) => {
     try {
+      const ip = context.request.headers.get("CF-Connecting-IP") ?? undefined;
+      const { city, continent, country, postalCode, region, timezone } =
+        context.request.cf ?? {};
       const formData = parseFormData(await context.request.formData());
 
       const manualyticsEvent = await core.createManualyticsEvent({
-        ip: context.request.headers.get("CF-Connecting-IP") ?? undefined,
-        cf: context.request.cf,
+        ip,
+        city,
+        continent,
+        country,
+        postalCode,
+        region,
+        timezone,
         formData,
       });
 
@@ -41,8 +49,10 @@ export namespace api {
           context.env.ManualyticsEventEnv
         );
 
+      // act
       await manualyticsEventRepository.save(manualyticsEvent);
 
+      // announce
       const url = new URL(context.request.url);
       return Response.redirect(
         `${url.protocol}//${url.host}/thanks-for-stopping-by`,
