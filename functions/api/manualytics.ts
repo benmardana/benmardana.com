@@ -33,12 +33,13 @@ export namespace api {
         ? context.request.headers.get("CF-Connecting-IP") ?? undefined
         : undefined;
       const location: IncomingRequestCfProperties | undefined =
-        formData.location ? context.request.cf ?? undefined : undefined;
+        formData.location ? context.request.cf : undefined;
 
       const manualyticsEvent = await core.createManualyticsEvent({
         ip,
         formData,
-        ...location,
+        city: location?.city,
+        country: location?.country,
       });
 
       const manualyticsEventRepository =
