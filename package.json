@@ -2,7 +2,8 @@
   "name": "benmcgarvey.com",
   "version": "1.0.0",
   "scripts": {
-    "dev": "wrangler pages dev ./dist --kv ManualyticsEventEnv"
+    "dev": "wrangler pages dev ./dist --kv ManualyticsEventEnv",
+    "test": "vitest"
   },
   "author": "ben mcgarvey",
   "license": "MIT",

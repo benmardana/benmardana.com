@@ -35,7 +35,7 @@ export namespace api {
       const location: IncomingRequestCfProperties | undefined =
         formData.location ? context.request.cf : undefined;
 
-      const manualyticsEvent = await core.createManualyticsEvent({
+      const manualyticsEvent = core.createManualyticsEvent({
         ip,
         formData,
         city: location?.city,

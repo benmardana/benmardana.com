@@ -21,7 +21,7 @@ export namespace core {
 
   export const createManualyticsEvent: (
     input: ManualyticsEventInput
-  ) => Promise<ManualyticsEvent> = async ({ formData, ...rest }) => ({
+  ) => ManualyticsEvent = ({ formData, ...rest }) => ({
     ...formData,
     ...rest,
   });
