@@ -19,7 +19,8 @@ it("should save a manualytics event", async () => {
       contact: "testContact",
     },
   };
-  vi.setSystemTime(new Date(1991, 5, 24));
+  const date = new Date(1991, 5, 24);
+  vi.setSystemTime(date);
   const expectedOutput = undefined;
   const putSpy = vi.spyOn(ManualyticsEventEnv, "put");
 
@@ -31,7 +32,7 @@ it("should save a manualytics event", async () => {
 
   expect(output).toEqual(expectedOutput);
   expect(putSpy).toBeCalledWith(
-    "677685600",
+    Math.floor(Date.now() / 1000).toString(),
     '{"ip":"testIp","city":"testCity","formData":{"from":"testForm","message":"testMessage","contact":"testContact"}}'
   );
   vi.useRealTimers();
