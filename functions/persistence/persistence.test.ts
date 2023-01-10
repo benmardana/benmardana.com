@@ -1,5 +1,5 @@
-import { expect, it, vi } from "vitest";
-import { persistence } from "./persistence";
+import { expect, it, vi } from 'vitest';
+import { persistence } from './persistence';
 
 const ManualyticsEventEnv = {
   put: vi.fn(),
@@ -9,20 +9,16 @@ const ManualyticsEventEnv = {
   delete: vi.fn(),
 };
 
-it("should save a manualytics event", async () => {
+it('should save a manualytics event', async () => {
   const event = {
-    ip: "testIp",
-    city: "testCity",
-    formData: {
-      from: "testForm",
-      message: "testMessage",
-      contact: "testContact",
-    },
+    from: 'testForm',
+    message: 'testMessage',
+    contact: 'testContact',
   };
   const date = new Date(1991, 5, 24);
   vi.setSystemTime(date);
   const expectedOutput = undefined;
-  const putSpy = vi.spyOn(ManualyticsEventEnv, "put");
+  const putSpy = vi.spyOn(ManualyticsEventEnv, 'put');
 
   const repository = new persistence.ManualyticsEventRepository(
     ManualyticsEventEnv
@@ -33,7 +29,7 @@ it("should save a manualytics event", async () => {
   expect(output).toEqual(expectedOutput);
   expect(putSpy).toBeCalledWith(
     Math.floor(Date.now() / 1000).toString(),
-    '{"ip":"testIp","city":"testCity","formData":{"from":"testForm","message":"testMessage","contact":"testContact"}}'
+    '{"from":"testForm","message":"testMessage","contact":"testContact"}'
   );
   vi.useRealTimers();
 });

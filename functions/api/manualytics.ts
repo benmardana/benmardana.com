@@ -1,5 +1,5 @@
-import { core } from "../core/core";
-import { persistence } from "../persistence/persistence";
+import { core } from '../core/core';
+import { persistence } from '../persistence/persistence';
 
 const belongsToArray = <TValue>(
   value: unknown,
@@ -7,14 +7,14 @@ const belongsToArray = <TValue>(
 ): value is TValue => (allowedValues as ReadonlyArray<unknown>).includes(value);
 
 export namespace api {
-  const formFields = ["from", "message", "contact", "ip", "location"] as const;
+  export const formFields = ['from', 'message', 'contact'] as const;
   type FormDataFields = Partial<Record<typeof formFields[number], string>>;
 
   const parseFormData = (formData: FormData): FormDataFields => {
     const response: FormDataFields = {};
     for (const [key, value] of formData.entries()) {
       if (
-        typeof value === "string" &&
+        typeof value === 'string' &&
         value.length > 1 &&
         belongsToArray(key, formFields)
       ) {
@@ -29,17 +29,14 @@ export namespace api {
   }> = async (context) => {
     try {
       const formData = parseFormData(await context.request.formData());
-      const ip = formData.ip
-        ? context.request.headers.get("CF-Connecting-IP") ?? undefined
-        : undefined;
-      const location: IncomingRequestCfProperties | undefined =
-        formData.location ? context.request.cf : undefined;
+      const origin = new URL(context.request.url).origin;
+
+      if (!('from' in formData)) {
+        return Response.redirect(origin, 303);
+      }
 
       const manualyticsEvent = core.createManualyticsEvent({
-        ip,
         formData,
-        city: location?.city,
-        country: location?.country,
       });
 
       const manualyticsEventRepository =
@@ -51,16 +48,12 @@ export namespace api {
       await manualyticsEventRepository.save(manualyticsEvent);
 
       // announce
-      const url = new URL(context.request.url);
-      return Response.redirect(
-        `${url.protocol}//${url.host}/thanks-for-stopping-by`,
-        303
-      );
+      return Response.redirect(`${origin}/thanks-for-stopping-by`, 303);
     } catch (e) {
       console.log({ e });
       return new Response(undefined, {
         status: 500,
-        statusText: e instanceof Error ? e.message : "Internal Server Error",
+        statusText: e instanceof Error ? e.message : 'Internal Server Error',
       });
     }
   };
