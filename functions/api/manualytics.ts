@@ -122,7 +122,7 @@ export namespace api {
   <script src="https://unpkg.com/htmx.org@1.8.4" integrity="sha384-wg5Y/JwF7VxGk4zLsJEcAojRtlVp1FKKdGy1qN+OMtdq72WRvX/EdRdqg/LOhYeV" crossorigin="anonymous"></script>
 </head>
 <body>
-  <table class="pure-table">
+  <table class="pure-table" style="max-width: 90%;">
   <thead>
     <tr>
       <th>From</th>
