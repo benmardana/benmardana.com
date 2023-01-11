@@ -111,12 +111,12 @@ export namespace api {
   <meta property="og:title" content="benmcgarvey.com" />
   <meta property="og:description" content="benmcgarvey.com" />
 
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
-  <link rel="manifest" href="assets/site.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="https://benmcgarvey.com/assets/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="https://benmcgarvey.com/assets/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="https://benmcgarvey.com/assets/favicon-16x16.png" />
+  <link rel="manifest" href="https://benmcgarvey.com/assets/site.webmanifest" />
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://benmcgarvey.com/style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/tables-min.css" crossorigin="anonymous">
   <script src="https://unpkg.com/htmx.org@1.8.4" integrity="sha384-wg5Y/JwF7VxGk4zLsJEcAojRtlVp1FKKdGy1qN+OMtdq72WRvX/EdRdqg/LOhYeV" crossorigin="anonymous"></script>
