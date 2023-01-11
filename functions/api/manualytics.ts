@@ -117,12 +117,12 @@ export namespace api {
   <link rel="manifest" href="https://benmcgarvey.com/assets/site.webmanifest" />
 
   <link rel="stylesheet" href="https://benmcgarvey.com/style.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/combine/npm/purecss@3.0.0/build/tables-min.css,npm/purecss@3.0.0/build/buttons-min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/tables-min.css" crossorigin="anonymous">
   <script src="https://unpkg.com/htmx.org@1.8.4" integrity="sha384-wg5Y/JwF7VxGk4zLsJEcAojRtlVp1FKKdGy1qN+OMtdq72WRvX/EdRdqg/LOhYeV" crossorigin="anonymous"></script>
 </head>
 <body>
-  <table class="pure-table" style="max-width: 90%;">
+  <table class="pure-table" style="width: 90%; max-width: 90%;">
   <thead>
     <tr>
       <th>From</th>

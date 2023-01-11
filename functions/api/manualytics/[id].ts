@@ -76,7 +76,7 @@ export const onRequestGet: Request = async (context) => {
   ).json<{ from: string; message: string; contact: string }>();
 
   const html = `<td>${from}</td><td>${contact}</td><td>${message}</td><td>
-  <button class="btn btn-danger" hx-delete="/api/manualytics/${context.params.id}" hx-target="closest tr" hx-swap="outerHTML swap:1s">
+  <button class="pure-button" hx-delete="/api/manualytics/${context.params.id}" hx-target="closest tr" hx-swap="outerHTML">
     Delete
   </button>
 </td>`;
