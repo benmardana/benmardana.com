@@ -10,7 +10,7 @@
       "ES2020"
     ],
     "types": [
-      "@cloudflare/workers-types"
+      "@cloudflare/workers-types",
     ]
   }
 }
