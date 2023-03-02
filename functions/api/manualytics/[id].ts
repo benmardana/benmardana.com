@@ -1,4 +1,6 @@
 import { Request } from '../../types';
+import { handleDeleteManualytics } from '../../handlers/manualytics';
+import { errorResponse } from '../../lib';
 
 export const onRequestDelete: Request = async (context) => {
   try {
@@ -14,13 +16,16 @@ export const onRequestDelete: Request = async (context) => {
     }
 
     if (typeof context.params.id === 'string') {
-      await context.env.MESSAGE_REPO.delete(context.params.id);
+      await handleDeleteManualytics(
+        context.env.MESSAGE_REPO,
+        context.params.id
+      );
     } else {
-      throw new Error();
+      return errorResponse();
     }
 
     return new Response(null, { status: 200 });
-  } catch {
-    return new Response(null, { status: 500 });
+  } catch (e) {
+    return errorResponse(e);
   }
 };

@@ -27,3 +27,9 @@ export const now = () => {
   const unixEpochTimeUTC = Math.floor(Date.now() / 1000);
   return unixEpochTimeUTC.toString();
 };
+
+export const errorResponse = (e?: unknown) =>
+  new Response(e instanceof Error ? e.message : 'Internal Server Error', {
+    status: 500,
+    statusText: e instanceof Error ? e.message : 'Internal Server Error',
+  });

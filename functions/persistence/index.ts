@@ -1,8 +1,16 @@
-import { now } from '../lib';
+export const repository = (namespace: KVNamespace) => {
+  const save = (...args: Parameters<typeof namespace.put>) =>
+    namespace.put(...args);
 
-export const repository = (namespace: KVNamespace) => ({
-  save: (value: any, key = now(), metadata?: any) =>
-    namespace.put(key, JSON.stringify(value), { metadata }),
-  list: <T>(options?: KVNamespaceListOptions) => namespace.list<T>(options),
-  delete: (id: string) => namespace.delete(id),
-});
+  const list = <T>(...args: Parameters<typeof namespace.list>) =>
+    namespace.list<T>(...args);
+
+  const del = (...args: Parameters<typeof namespace.delete>) =>
+    namespace.delete(...args);
+
+  return {
+    save,
+    list,
+    del,
+  };
+};

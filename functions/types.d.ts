@@ -12,6 +12,6 @@ type Repository = ReturnType<typeof repository>;
 
 export type Request = PagesFunction<AppENV & { MESSAGE_REPO: Repository }>;
 
-export type MiddlewareContext = EventContext<
+export type MiddlewareRequest = PagesPluginFunction<
   AppENV & { MESSAGE_REPO?: Repository }
 >;

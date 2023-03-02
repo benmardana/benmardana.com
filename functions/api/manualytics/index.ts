@@ -1,9 +1,9 @@
-import {
-  handleManualyticsRequest,
-  handleManualyticsMessage,
-} from '../../handlers/manualytics';
-import { parseFormData } from '../../lib';
 import { Request } from '../../types';
+import { errorResponse, parseFormData } from '../../lib';
+import {
+  handleListManualytics,
+  handleSaveManualyticsMessage,
+} from '../../handlers/manualytics';
 
 export const onRequestPost: Request = async (context) => {
   try {
@@ -18,7 +18,7 @@ export const onRequestPost: Request = async (context) => {
       return Response.redirect(origin, 303);
     }
 
-    await handleManualyticsMessage(context.env.MESSAGE_REPO, {
+    await handleSaveManualyticsMessage(context.env.MESSAGE_REPO, {
       from,
       message,
       contact,
@@ -26,32 +26,26 @@ export const onRequestPost: Request = async (context) => {
 
     return Response.redirect(`${origin}/thanks-for-stopping-by`, 303);
   } catch (e) {
-    console.log({ e });
-    return new Response(
-      e instanceof Error ? e.message : 'Internal Server Error',
-      {
-        status: 500,
-        statusText: e instanceof Error ? e.message : 'Internal Server Error',
-      }
-    );
+    return errorResponse(e);
   }
 };
 
 export const onRequestGet: Request = async (context) => {
-  const auth = context.request.headers.get('authorization')?.split(' ')[1];
+  try {
+    const auth = context.request.headers.get('authorization')?.split(' ')[1];
 
-  if (auth !== context.env.AUTH_KEY) {
-    return new Response(null, {
-      status: 401,
-      headers: {
-        [`WWW-Authenticate`]: 'Basic',
-      },
-    });
-  }
+    if (auth !== context.env.AUTH_KEY) {
+      return new Response(null, {
+        status: 401,
+        headers: {
+          [`WWW-Authenticate`]: 'Basic',
+        },
+      });
+    }
 
-  const data = await handleManualyticsRequest(context.env.MESSAGE_REPO);
+    const data = await handleListManualytics(context.env.MESSAGE_REPO);
 
-  const html = `<!DOCTYPE html>
+    const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -100,10 +94,13 @@ export const onRequestGet: Request = async (context) => {
   </table>
 </body>`;
 
-  return new Response(html, {
-    status: 200,
-    headers: {
-      'content-type': 'text/html;charset=UTF-8',
-    },
-  });
+    return new Response(html, {
+      status: 200,
+      headers: {
+        'content-type': 'text/html;charset=UTF-8',
+      },
+    });
+  } catch (e) {
+    return errorResponse(e);
+  }
 };
