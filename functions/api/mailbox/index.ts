@@ -16,7 +16,7 @@ export const onRequestPost: Request = async (context) => {
       return Response.redirect(origin, 303);
     }
 
-    await handleSaveMail(makeRepository(context.env.mailbox), {
+    await handleSaveMail(context.env.MAILBOX_REPO, {
       from,
       message,
       contact,
