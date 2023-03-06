@@ -1,7 +1,7 @@
 import { MiddlewareRequest } from '../../types';
 import { makeRepository } from '../../persistence';
 
-const repositories = [{ name: 'MESSAGE_REPO', key: 'ManualyticsEventEnv' }];
+const repositories = [{ name: 'MAILBOX_REPO', key: 'mailbox' }];
 
 const addRepositories: MiddlewareRequest = async (context) => {
   try {

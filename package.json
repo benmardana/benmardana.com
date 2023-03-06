@@ -2,7 +2,7 @@
   "name": "benmcgarvey.com",
   "version": "1.0.0",
   "scripts": {
-    "dev": "wrangler pages dev ./dist --kv ManualyticsEventEnv",
+    "dev": "wrangler pages dev ./dist --kv mailbox",
     "test": "vitest"
   },
   "author": "ben mcgarvey",

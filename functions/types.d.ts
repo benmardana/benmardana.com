@@ -1,7 +1,7 @@
 import { makeRepository } from './persistence';
 
 export interface AppENV {
-  ManualyticsEventEnv: KVNamespace;
+  mailbox: KVNamespace;
   AUTH_KEY: string;
   ACCOUNT_ID: string;
   API_TOKEN: string;
@@ -10,8 +10,8 @@ export interface AppENV {
 
 export type Repository = ReturnType<typeof makeRepository>;
 
-export type Request = PagesFunction<AppENV & { MESSAGE_REPO: Repository }>;
+export type Request = PagesFunction<AppENV & { MAILBOX_REPO: Repository }>;
 
 export type MiddlewareRequest = PagesPluginFunction<
-  AppENV & { MESSAGE_REPO?: Repository }
+  AppENV & { MAILBOX_REPO?: Repository }
 >;

@@ -1,5 +1,5 @@
 import { Request } from '../../types';
-import { handleDeleteManualytics } from '../../handlers/manualytics';
+import { handleDeleteMail } from '../../handlers/mailbox';
 import { errorResponse, extractAuthToken } from '../../lib';
 
 export const onRequestDelete: Request = async (context) => {
@@ -14,10 +14,7 @@ export const onRequestDelete: Request = async (context) => {
     }
 
     if (typeof context.params.id === 'string') {
-      await handleDeleteManualytics(
-        context.env.MESSAGE_REPO,
-        context.params.id
-      );
+      await handleDeleteMail(context.env.MAILBOX_REPO, context.params.id);
     } else {
       return errorResponse();
     }

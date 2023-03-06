@@ -1,9 +1,7 @@
 import { Request } from '../../types';
 import { errorResponse, extractAuthToken, parseFormData } from '../../lib';
-import {
-  handleListManualytics,
-  handleSaveManualyticsMessage,
-} from '../../handlers/manualytics';
+import { handleListMail, handleSaveMail } from '../../handlers/mailbox';
+import { makeRepository } from '../../persistence';
 
 export const onRequestPost: Request = async (context) => {
   try {
@@ -18,7 +16,7 @@ export const onRequestPost: Request = async (context) => {
       return Response.redirect(origin, 303);
     }
 
-    await handleSaveManualyticsMessage(context.env.MESSAGE_REPO, {
+    await handleSaveMail(makeRepository(context.env.mailbox), {
       from,
       message,
       contact,
@@ -41,7 +39,7 @@ export const onRequestGet: Request = async (context) => {
       });
     }
 
-    const data = await handleListManualytics(context.env.MESSAGE_REPO);
+    const data = await handleListMail(context.env.MAILBOX_REPO);
 
     const html = `<!DOCTYPE html>
 <html lang="en">
@@ -76,12 +74,12 @@ export const onRequestGet: Request = async (context) => {
   <tbody>
     ${data
       .map(
-        ({ name, message, from, contact }) =>
+        ({ id, message, from, contact }) =>
           `
     <tr>
       <td>${from}</td><td>${contact}</td><td>${message}</td>
       <td>
-      <button class="pure-button" hx-delete="/api/manualytics/${name}" hx-target="closest tr" hx-swap="outerHTML">
+      <button class="pure-button" hx-delete="/api/mailbox/${id}" hx-target="closest tr" hx-swap="outerHTML">
         Delete
       </button>
       </td>
