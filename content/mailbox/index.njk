@@ -1,0 +1,41 @@
+---
+layout: layouts/base.njk
+---
+<section>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/combine/npm/purecss@3.0.0/build/tables-min.css,npm/purecss@3.0.0/build/buttons-min.css"/>
+  <div
+    x-cloak
+    x-data="{mailbox: [], 'isLoading': true}"
+    x-init="fetch('/api/mailbox')
+      .then(response => response.json())
+      .then(response => { mailbox = response.data; isLoading = false; })"
+  >
+    <div x-show="isLoading">Loading...</div>
+    <table x-show="!isLoading" class="pure-table" style="width: 90%; max-width: 90%;">
+      <thead>
+        <tr>
+          <th>From</th>
+          <th>Contact</th>
+          <th>Message</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <template x-for="mail in mailbox" :key="mail.id">
+          <tr>
+            <td x-text="mail.from"></td>
+            <td x-text="mail.contact"></td>
+            <td x-text="mail.message"></td>
+            <td>
+              <button @click="fetch(`/api/mailbox/${mail.id}`, { method: 'DELETE' }).then((response) => {
+                  response.ok && $event.target.parentElement.parentElement.remove();
+                })" >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+</section>

@@ -41,59 +41,10 @@ export const onRequestGet: Request = async (context) => {
 
     const data = await handleListMail(context.env.MAILBOX_REPO);
 
-    const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>benmcgarvey.com</title>
-  <meta name="description" content="benmcgarvey.com" />
-
-  <meta property="og:title" content="benmcgarvey.com" />
-  <meta property="og:description" content="benmcgarvey.com" />
-
-  <link rel="apple-touch-icon" sizes="180x180" href="https://benmcgarvey.com/public/img/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="https://benmcgarvey.com/public/img/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="https://benmcgarvey.com/public/img/favicon-16x16.png" />
-  <link rel="manifest" href="https://benmcgarvey.com/public/img/site.webmanifest" />
-
-  <link rel="stylesheet" href="https://benmcgarvey.com/style.css" />
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/combine/npm/purecss@3.0.0/build/tables-min.css,npm/purecss@3.0.0/build/buttons-min.css" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://unpkg.com/htmx.org@1.8.4" integrity="sha384-wg5Y/JwF7VxGk4zLsJEcAojRtlVp1FKKdGy1qN+OMtdq72WRvX/EdRdqg/LOhYeV" crossorigin="anonymous"></script>
-</head>
-<body>
-  <table class="pure-table" style="width: 90%; max-width: 90%;">
-  <thead>
-    <tr>
-      <th>From</th>
-      <th>Contact</th>
-      <th>Message</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    ${data
-      .map(
-        ({ id, message, from, contact }) =>
-          `
-    <tr>
-      <td>${from}</td><td>${contact}</td><td>${message}</td>
-      <td>
-      <button class="pure-button" hx-delete="/api/mailbox/${id}" hx-target="closest tr" hx-swap="outerHTML">
-        Delete
-      </button>
-      </td>
-    </tr>`
-      )
-      .join("\n")}
-  </tbody>
-  </table>
-</body>`;
-
-    return new Response(html, {
+    return new Response(JSON.stringify({ data }), {
       status: 200,
       headers: {
-        "content-type": "text/html;charset=UTF-8",
+        "content-type": "application/json",
       },
     });
   } catch (e) {
