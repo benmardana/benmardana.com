@@ -1,0 +1,26 @@
+---
+layout: layouts/base.njk
+eleventyNavigation:
+  key: Home
+  order: 1
+numberOfLatestPostsToShow: 3
+---
+{% include "intro.njk" %}
+<section>
+	<details>
+		<summary>
+			<h3 style="display: inline">Let me know you were here</h3>
+		</summary>
+		<form method="POST" action="api/mailbox">
+			<label>From *<input type="text" name="from" autocomplete="name" placeholder="Ellen Ripley" required/></label>
+			<label>Message
+            <textarea rows="2" name="message"
+              placeholder="This is Ripley, last survivor of the Nostromo, signing off."></textarea>
+			</label>
+			<label>Contact
+            <input type="email" name="contact" autocomplete="email" placeholder="eripley@weyland-yutani.com"/>
+			</label>
+			<button type="submit">Say hi</button>
+		</form>
+	</details>
+</section>

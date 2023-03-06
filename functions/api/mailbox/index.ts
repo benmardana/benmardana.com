@@ -1,7 +1,7 @@
-import { Request } from '../../types';
-import { errorResponse, extractAuthToken, parseFormData } from '../../lib';
-import { handleListMail, handleSaveMail } from '../../handlers/mailbox';
-import { makeRepository } from '../../persistence';
+import { Request } from "../../types";
+import { errorResponse, extractAuthToken, parseFormData } from "../../lib";
+import { handleListMail, handleSaveMail } from "../../handlers/mailbox";
+import { makeRepository } from "../../persistence";
 
 export const onRequestPost: Request = async (context) => {
   try {
@@ -9,7 +9,7 @@ export const onRequestPost: Request = async (context) => {
 
     const { from, message, contact } = parseFormData(
       await context.request.formData(),
-      ['from', 'message', 'contact']
+      ["from", "message", "contact"]
     );
 
     if (!from) {
@@ -34,7 +34,7 @@ export const onRequestGet: Request = async (context) => {
       return new Response(null, {
         status: 401,
         headers: {
-          [`WWW-Authenticate`]: 'Basic',
+          [`WWW-Authenticate`]: "Basic",
         },
       });
     }
@@ -51,10 +51,10 @@ export const onRequestGet: Request = async (context) => {
   <meta property="og:title" content="benmcgarvey.com" />
   <meta property="og:description" content="benmcgarvey.com" />
 
-  <link rel="apple-touch-icon" sizes="180x180" href="https://benmcgarvey.com/assets/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="https://benmcgarvey.com/assets/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="https://benmcgarvey.com/assets/favicon-16x16.png" />
-  <link rel="manifest" href="https://benmcgarvey.com/assets/site.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="https://benmcgarvey.com/public/img/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="https://benmcgarvey.com/public/img/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="https://benmcgarvey.com/public/img/favicon-16x16.png" />
+  <link rel="manifest" href="https://benmcgarvey.com/public/img/site.webmanifest" />
 
   <link rel="stylesheet" href="https://benmcgarvey.com/style.css" />
   <link rel="stylesheet" href="//cdn.jsdelivr.net/combine/npm/purecss@3.0.0/build/tables-min.css,npm/purecss@3.0.0/build/buttons-min.css" />
@@ -85,7 +85,7 @@ export const onRequestGet: Request = async (context) => {
       </td>
     </tr>`
       )
-      .join('\n')}
+      .join("\n")}
   </tbody>
   </table>
 </body>`;
@@ -93,7 +93,7 @@ export const onRequestGet: Request = async (context) => {
     return new Response(html, {
       status: 200,
       headers: {
-        'content-type': 'text/html;charset=UTF-8',
+        "content-type": "text/html;charset=UTF-8",
       },
     });
   } catch (e) {
