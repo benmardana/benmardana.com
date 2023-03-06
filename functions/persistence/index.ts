@@ -1,4 +1,4 @@
-export const repository = (namespace: KVNamespace) => {
+export const makeRepository = (namespace: KVNamespace) => {
   const save = (...args: Parameters<typeof namespace.put>) =>
     namespace.put(...args);
 

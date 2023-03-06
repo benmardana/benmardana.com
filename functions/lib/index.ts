@@ -33,3 +33,6 @@ export const errorResponse = (e?: unknown) =>
     status: 500,
     statusText: e instanceof Error ? e.message : 'Internal Server Error',
   });
+
+export const extractAuthToken = (headers: Headers) =>
+  headers.get('authorization')?.split(' ')[1];

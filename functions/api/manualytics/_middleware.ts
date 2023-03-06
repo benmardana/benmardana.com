@@ -1,9 +1,15 @@
 import { MiddlewareRequest } from '../../types';
-import { repository } from '../../persistence';
+import { makeRepository } from '../../persistence';
 
-const repositories: MiddlewareRequest = async (context) => {
+const repositories = [{ name: 'MESSAGE_REPO', key: 'ManualyticsEventEnv' }];
+
+const addRepositories: MiddlewareRequest = async (context) => {
   try {
-    context.env.MESSAGE_REPO = repository(context.env.ManualyticsEventEnv);
+    repositories.forEach(({ name, key }) => {
+      // @ts-ignore
+      context.env[name] = makeRepository(context.env[key]);
+    });
+
     return await context.next();
   } catch (e) {
     return new Response(
@@ -16,4 +22,4 @@ const repositories: MiddlewareRequest = async (context) => {
   }
 };
 
-export const onRequest = [repositories];
+export const onRequest = [addRepositories];

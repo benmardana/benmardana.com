@@ -1,5 +1,5 @@
 import { Request } from '../../types';
-import { errorResponse, parseFormData } from '../../lib';
+import { errorResponse, extractAuthToken, parseFormData } from '../../lib';
 import {
   handleListManualytics,
   handleSaveManualyticsMessage,
@@ -32,9 +32,7 @@ export const onRequestPost: Request = async (context) => {
 
 export const onRequestGet: Request = async (context) => {
   try {
-    const auth = context.request.headers.get('authorization')?.split(' ')[1];
-
-    if (auth !== context.env.AUTH_KEY) {
+    if (extractAuthToken(context.request.headers) !== context.env.AUTH_KEY) {
       return new Response(null, {
         status: 401,
         headers: {

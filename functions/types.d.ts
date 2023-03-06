@@ -1,4 +1,4 @@
-import { repository } from './persistence';
+import { makeRepository } from './persistence';
 
 export interface AppENV {
   ManualyticsEventEnv: KVNamespace;
@@ -8,7 +8,7 @@ export interface AppENV {
   NAMESPACE_ID: string;
 }
 
-type Repository = ReturnType<typeof repository>;
+export type Repository = ReturnType<typeof makeRepository>;
 
 export type Request = PagesFunction<AppENV & { MESSAGE_REPO: Repository }>;
 
