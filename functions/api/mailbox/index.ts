@@ -1,7 +1,6 @@
 import { Request } from "../../types";
 import { errorResponse, extractAuthToken, parseFormData } from "../../lib";
 import { handleListMail, handleSaveMail } from "../../handlers/mailbox";
-import { makeRepository } from "../../persistence";
 
 export const onRequestPost: Request = async (context) => {
   try {
