@@ -42,7 +42,9 @@
 						<td>{contact}</td>
 						<td>{message}</td>
 						<td>
-							<button>Delete</button>
+							<button on:click={() => fetch(`/api/mailbox/${id}`, { method: 'DELETE' })}>
+								Delete
+							</button>
 						</td>
 					</tr>
 				{/each}
