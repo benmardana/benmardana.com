@@ -1,0 +1,47 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'ben mcgarvey', description = 'ben mcgarvey' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+
+    <link rel="stylesheet" href="public/css/stylesheet.css" />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/public/img/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/public/img/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/public/img/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/public/img/site.webmanifest" />
+  </head>
+
+  <body>
+    <slot />
+  </body>
+</html>
