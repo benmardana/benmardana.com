@@ -1,6 +1,6 @@
-import { Request } from "../../types";
-import { errorResponse, extractAuthToken, parseFormData } from "../../lib";
-import { handleListMail, handleSaveMail } from "../../handlers/mailbox";
+import { Request } from '../../types';
+import { errorResponse, extractAuthToken, parseFormData } from '../../lib';
+import { handleListMail, handleSaveMail } from '../../handlers/mailbox';
 
 export const onRequestPost: Request = async (context) => {
   try {
@@ -8,7 +8,7 @@ export const onRequestPost: Request = async (context) => {
 
     const { from, message, contact } = parseFormData(
       await context.request.formData(),
-      ["from", "message", "contact"]
+      ['from', 'message', 'contact']
     );
 
     if (!from) {
@@ -33,17 +33,21 @@ export const onRequestGet: Request = async (context) => {
       return new Response(null, {
         status: 401,
         headers: {
-          [`WWW-Authenticate`]: "Basic",
+          [`WWW-Authenticate`]: 'Basic',
         },
       });
     }
 
+    // const mockData = [
+    //   { id: '1', from: 'ben', message: 'hello', contact: 'email@domain.com' },
+    //   { id: '2', from: 'suellan', message: 'world', contact: 'email@web.com' },
+    // ];
     const data = await handleListMail(context.env.MAILBOX_REPO);
 
     return new Response(JSON.stringify({ data }), {
       status: 200,
       headers: {
-        "content-type": "application/json",
+        'content-type': 'application/json',
       },
     });
   } catch (e) {
