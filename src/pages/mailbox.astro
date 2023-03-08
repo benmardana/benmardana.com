@@ -3,6 +3,15 @@ import { MailBox } from '../components/mailbox';
 import Default from '../layouts/default.astro';
 ---
 
+<style>
+  .mailbox {
+    max-width: 90vw;
+    width: 90vw;
+  }
+</style>
+
 <Default>
-  <MailBox client:load />
+  <section class="mailbox">
+    <MailBox client:load />
+  </section>
 </Default>

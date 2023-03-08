@@ -21,7 +21,7 @@ export const MailBox = () => {
         rel="stylesheet"
         href="//cdn.jsdelivr.net/combine/npm/purecss@3.0.0/build/tables-min.css,npm/purecss@3.0.0/build/buttons-min.css"
       />
-      <table className="pure-table">
+      <table className="pure-table" style={{ width: '100%' }}>
         <thead>
           <tr>
             <th>From</th>
