@@ -1,0 +1,173 @@
+---
+import Citation from '@components/citation.astro';
+import Header from '@components/header.astro';
+import Default from '@layouts/default.astro';
+---
+
+<style is:inline>
+  style {
+    display: block;
+    white-space: pre-wrap;
+    font-family: Monospace;
+    margin: var(--s1) 0;
+    padding: var(--s1);
+    text-decoration: none;
+
+    border-radius: 0.4rem;
+    box-shadow: 0 1px 2px 0 #0000001a;
+    background: var(--textcolor);
+    color: var(--bgcolor);
+  }
+  style::before {
+    color: #6667ab;
+    content: '    <style>';
+  }
+  style::after {
+    color: #6667ab;
+    content: '<\/style>';
+  }
+
+  .supported {
+    background: var(--highlight);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .supported {
+      background-size: 200% 100%;
+      animation: rainbow 0.8s linear infinite;
+    }
+  }
+
+  .supported.link {
+    display: contents;
+  }
+
+  .supported.link:hover {
+    background: unset;
+    background-clip: unset;
+  }
+
+  .supported.link::after {
+    display: none;
+  }
+
+  .unsupported {
+    font-style: italic;
+  }
+</style>
+
+<Default>
+  <Header />
+  <article>
+    <h2>Are We CSS Module Yet?</h2>
+    <br />
+    <div class="parent">
+      <div class="supported">
+        If you can see me then your browser supports CSS Nesting Module!
+        <p>
+          Check <a class="link" href="https://caniuse.com/css-nesting"
+            >https://caniuse.com/css-nesting</a
+          > for other compatible browsers
+        </p>
+      </div>
+      <div class="unsupported">
+        Your browser doesn't support CSS Nesting Module :(
+        <p>
+          Check <a class="link" href="https//caniuse.com/css-nesting"
+            >https://caniuse.com/css-nesting</a
+          > for compatible browsers
+        </p>
+      </div>
+    </div>
+    <br />
+    <p>
+      Nested CSS (or CSS Nesting Module) is a CSS feature that was first
+      proposed in 2021 by the W3C CSS Working group<Citation
+        url="https://www.w3.org/TR/2021/WD-css-nesting-1-20210831/"
+      /> and began to be supported by major browsers in early 2023.<Citation
+        url="https://bugs.chromium.org/p/chromium/issues/detail?id=1095675"
+      />
+    </p>
+    <br />
+    <p>
+      It follows popular css extension languages such as Sass and Less, allowing
+      css rules to be nested inside of each other - reducing duplication of
+      selectors, allowing terser and more readable style sheets.<Citation
+        url="https://sass-lang.com/guide"
+      />
+    </p>
+    <br />
+    <p>
+      The CSS Nesting Module provides a specification for browsers to implement
+      that allows for nested styles to be written directly in css files and
+      therefore removes the need for pre-processing.<Citation
+        url="https://www.w3.org/TR/css-nesting-1/"
+      />
+    </p>
+    <br />
+    <p>
+      The style below is an example of syntax that will be allowed in the new
+      specification.
+    </p>
+
+    <style is:inline>
+      .supported {
+        display: none;
+      }
+
+      .parent {
+        .supported {
+          display: block;
+        }
+
+        .unsupported {
+          display: none;
+        }
+      }
+    </style>
+    <aside>
+      The style above is what powers the compatibility check at the top of this
+      page! As in, literally that style tag - it's a partial quine. Go ahead and
+      inspect it to see for yourself.<Citation
+        url="https://secretgeek.github.io/html_wysiwyg/html.html"
+      />
+    </aside>
+    <br />
+    <p>
+      <h3>References:</h3>
+      <ul>
+        <li>
+          <a href="https://www.w3.org/TR/2021/WD-css-nesting-1-20210831/"
+            >https://www.w3.org/TR/2021/WD-css-nesting-1-20210831/</a
+          >
+        </li>
+        <li>
+          <a href="https://www.w3.org/TR/css-nesting-1/"
+            >https://www.w3.org/TR/css-nesting-1/</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://bugs.chromium.org/p/chromium/issues/detail?id=1095675"
+            >https://bugs.chromium.org/p/chromium/issues/detail?id=1095675</a
+          >
+        </li>
+        <li>
+          <a href="https://sass-lang.com/guide">https://sass-lang.com/guide</a>
+        </li>
+        <li>
+          <a href="https://secretgeek.github.io/html_wysiwyg/html.html"
+            >https://secretgeek.github.io/html_wysiwyg/html.html</a
+          >
+        </li>
+        <li>
+          <a href="https://www.arewewebyet.org/">https://www.arewewebyet.org/</a
+          >
+        </li>
+      </ul>
+    </p>
+  </article>
+</Default>

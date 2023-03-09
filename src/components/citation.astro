@@ -1,0 +1,26 @@
+---
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<style>
+  a[href*="//"]:after
+  {
+    content: none;
+  }
+
+  cite {
+    margin-left: -5px;
+  }
+</style>
+
+<cite>
+  <sup>
+    <strong>
+      <a href={url}>*</a>
+    </strong>
+  </sup>
+</cite>
