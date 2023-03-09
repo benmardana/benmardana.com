@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import thanksImage from '../assets/img/veronica_corningstone.jpg';
 import Header from '../components/header.astro';
 import Intro from '../components/intro.astro';
 import Default from '../layouts/default.astro';
@@ -7,11 +9,6 @@ import Default from '../layouts/default.astro';
 <Default>
   <Header />
   <Intro />
-
   <br />
-  <br />
-  <img
-    alt="Thanks for stopping by"
-    src="/public/img/veronica_corningstone.jpg"
-  />
+  <Image src={thanksImage} alt="Thanks for stopping by" style="height: auto;" />
 </Default>
