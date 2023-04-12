@@ -1,0 +1,213 @@
+---
+import Citation from '@components/citation.astro';
+import Header from '@components/header.astro';
+import Default from '@layouts/default.astro';
+---
+
+<script>
+  import { h, text, app } from 'hyperapp';
+  import { every } from '@hyperapp/time';
+  import { Cell, CellState, Game, cellGrid } from './_game-of-life';
+
+  const node = document.getElementById('app');
+  if (!node) throw Error('missing app element');
+
+  type GameState = {
+    game: ReturnType<typeof Game>;
+    size: number;
+    play: boolean;
+  };
+
+  const gameFromMemory = window.localStorage.getItem('game-of-life');
+
+  const initialSize = 50;
+
+  const newGame = (size: number) =>
+    Game(
+      cellGrid(size, size, () =>
+        Math.random() >= 0.5 ? Cell(CellState.ALIVE) : Cell(CellState.DEAD)
+      )
+    );
+
+  const game = gameFromMemory ? Game(gameFromMemory) : newGame(initialSize);
+
+  const NewSeed = (state: GameState) => ({
+    ...state,
+    game: newGame(state.size),
+    play: false,
+  });
+
+  const Tick = (state: GameState) => ({
+    ...state,
+    game: state.game.tick(),
+  });
+
+  const Play = (state: GameState) => ({
+    ...state,
+    play: true,
+  });
+
+  const Pause = (state: GameState) => ({
+    ...state,
+    play: false,
+  });
+
+  const UpdateSize = (state: GameState, event: Event) => ({
+    ...state,
+    size: (event.target as unknown as any).value,
+  });
+
+  const onStateChange = (state: GameState) => {
+    window.localStorage.setItem('game-of-life', state.game.toString());
+  };
+
+  app({
+    init: { game, size: initialSize, play: false },
+    subscriptions: (state) => [
+      onStateChange(state),
+      state.play && every(100, Tick),
+    ],
+    view: (state) =>
+      h('div', { style: { paddingTop: '16px' } }, [
+        h(
+          'div',
+          {
+            style: {
+              display: 'flex',
+              width: '100%',
+              aspectRatio: '1/1',
+              flexDirection: 'column',
+            },
+          },
+          state.game.map((row) => {
+            return h(
+              'div',
+              {
+                class: 'row',
+                style: { display: 'flex', width: '100%', flexGrow: '1' },
+              },
+              row.map((cell) => {
+                return h('div', {
+                  class: 'cell',
+                  style: {
+                    flexGrow: '1',
+                    border: '1px solid black',
+                    background:
+                      cell.state === CellState.ALIVE ? 'white' : 'black',
+                  },
+                });
+              })
+            );
+          })
+        ),
+        h(
+          'div',
+          {
+            style: {
+              display: 'flex',
+              justifyContent: 'space-evenly',
+            },
+          },
+          [
+            h(
+              'button',
+              { onclick: Tick, style: { margin: '8px', flexGrow: '1' } },
+              text('tick')
+            ),
+            h(
+              'button',
+              {
+                onclick: Play,
+                style: { margin: '8px', flexGrow: '1' },
+              },
+              text('play')
+            ),
+            h(
+              'button',
+              {
+                onclick: Pause,
+                style: { margin: '8px', flexGrow: '1' },
+              },
+              text('pause')
+            ),
+          ]
+        ),
+        h('div', {}, [
+          h(
+            'label',
+            { for: 'size', style: { margin: '8px', display: 'inline' } },
+            text('size of next seed (10-100)')
+          ),
+          h('input', {
+            type: 'number',
+            id: 'size',
+            name: 'size',
+            value: state.size,
+            oninput: UpdateSize,
+            min: 10,
+            max: 100,
+            style: { margin: '8px', display: 'inline' },
+          }),
+          h(
+            'button',
+            { onclick: [NewSeed, state.size], style: { margin: '8px' } },
+            text('new seed')
+          ),
+        ]),
+      ]),
+    node,
+  });
+</script>
+
+<Default>
+  <Header />
+  <main>
+    <h3 style="margin-top: 16px;">
+      A simple implementation of <a
+        href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life"
+        >Conway's Game of Life.</a
+      >
+    </h3>
+    <div id="app"></div>
+    <br />
+    <h4>Notes</h4>
+    <p>
+      Rules <Citation
+        url="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Rules"
+      />
+      <ol>
+        <li>
+          Any live cell with fewer than two live neighbours dies, as if by
+          underpopulation.
+        </li>
+        <li>
+          Any live cell with two or three live neighbours lives on to the next
+          generation.
+        </li>
+        <li>
+          Any live cell with more than three live neighbours dies, as if by
+          overpopulation.
+        </li>
+        <li>
+          Any dead cell with exactly three live neighbours becomes a live cell,
+          as if by reproduction.
+        </li>
+      </ol>
+    </p>
+    <br />
+    <p>
+      The grid is drawn directly to the dom using <a
+        href="https://github.com/jorgebucaran/hyperapp">hyperapp</a
+      >, a lightweight framework for authoring stateful html applications.
+    </p>
+    <br />
+    <p>
+      Since it draws directly to the dom, there is a limitation on size and
+      speed. The underlying engine is abstracted so could be reused with a
+      different drawing method such as <a
+        href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas"
+        >canvas</a
+      >
+    </p>
+  </main>
+</Default>
