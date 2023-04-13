@@ -23,7 +23,15 @@ const Grid = (initialState: CellGrid) => {
         if (i === 0 && j === 0) {
           continue;
         }
-        const cell = cellAt(x + i, y + j);
+        let [xIndex, yIndex] = [x + i, y + j] as const;
+        if (i < 0) {
+          xIndex += cells.length;
+        }
+        if (j < 0) {
+          yIndex += cells[0]!.length;
+        }
+
+        const cell = cellAt(xIndex, yIndex);
         if (cell?.state === CellState.ALIVE) {
           livingNeighbours += 1;
         }

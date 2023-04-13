@@ -69,6 +69,22 @@ describe('Grid', () => {
     expect(grid.cellAt(12, 5)?.state).toBe('alive');
   });
 
+  test('liveNeighbours(x,y) returns the number of living neighbours around the curve', () => {
+    const grid = Grid(
+      cellGrid(10, 10, (x, y) => {
+        if (x === 4 && y === 0) {
+          return Cell(CellState.ALIVE);
+        }
+        if (x === 4 && y === 9) {
+          return Cell(CellState.ALIVE);
+        }
+        return Cell(CellState.DEAD);
+      })
+    );
+
+    expect(grid.liveNeighbours(4, 0)).toBe(1);
+  });
+
   test('liveNeighbours(x,y) returns the number of living neighbours on same row', () => {
     const grid = Grid(
       cellGrid(10, 10, (x, y) => {
