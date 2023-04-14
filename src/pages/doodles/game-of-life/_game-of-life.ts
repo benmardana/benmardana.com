@@ -29,8 +29,7 @@ function Game(initialState: CellGrid | string) {
             return Cell(CellState.DEAD);
           }
           if (cell.state === CellState.ALIVE) {
-            if (liveNeighbours === 2 || liveNeighbours === 3)
-              return cell.survive();
+            if (liveNeighbours === 2 || liveNeighbours === 3) return cell;
             return cell.kill();
           }
           if (liveNeighbours === 3) return cell.animate();

@@ -6,12 +6,12 @@
   import { Cell, CellState, Game, cellGrid } from '../_game-of-life';
 
   const [width, height] = [window.innerWidth, window.innerHeight] as const;
-  const size = 300;
+  const size = 500;
 
   const scene = new THREE.Scene();
 
   const camera = new THREE.PerspectiveCamera(100, width / height, 0.1, 200000);
-  camera.position.z = 100;
+  camera.position.z = size / 3;
 
   const renderer = new THREE.WebGLRenderer();
   renderer.setClearColor('#222222');
@@ -65,8 +65,19 @@
     game = game.tick();
   };
 
-  renderer.setAnimationLoop(() => {
-    tick();
+  let previous = 0;
+  let lag = 0;
+  const MS_PER_UPDATE = 100;
+  renderer.setAnimationLoop((time) => {
+    const current = time;
+    const elapsed = current - previous;
+    previous = current;
+    lag += elapsed;
+    while (lag >= MS_PER_UPDATE) {
+      console.log({ lag });
+      tick();
+      lag -= MS_PER_UPDATE;
+    }
     renderer.render(scene, camera);
     stats.update();
   });
