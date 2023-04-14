@@ -30,7 +30,7 @@
   );
 
   const geometry = new THREE.PlaneGeometry(1, 1);
-  const material = new THREE.MeshBasicMaterial();
+  const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
 
   const aliveColor = new THREE.Color('#F2F2F2');
   const deadColor = new THREE.Color('#222222');
