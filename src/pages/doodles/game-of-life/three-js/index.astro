@@ -1,68 +1,82 @@
 <script>
   import * as THREE from 'three';
   import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+  import Stats from 'three/addons/libs/stats.module.js';
 
   import { Cell, CellState, Game, cellGrid } from '../_game-of-life';
 
   const [width, height] = [window.innerWidth, window.innerHeight] as const;
+  const size = 300;
 
   const scene = new THREE.Scene();
 
-  const camera = new THREE.PerspectiveCamera(100, width / height, 0.1, 100000);
+  const camera = new THREE.PerspectiveCamera(100, width / height, 0.1, 200000);
   camera.position.z = 100;
 
   const renderer = new THREE.WebGLRenderer();
-  renderer.setClearColor('#f2f2f2');
+  renderer.setClearColor('#222222');
   renderer.setSize(width, height);
   document.body.appendChild(renderer.domElement);
 
   new OrbitControls(camera, renderer.domElement);
 
-  var axes = new THREE.AxesHelper(1);
-  scene.add(axes);
-
-  const grid = new THREE.GridHelper(
-    200,
-    200,
-    new THREE.Color('#222'),
-    new THREE.Color('#222')
-  );
-  grid.rotation.x = Math.PI / 2;
-  scene.add(grid);
-
-  const geometry = new THREE.PlaneGeometry(1, 1);
-  const material = new THREE.MeshBasicMaterial({
-    color: 0x222,
-    side: THREE.DoubleSide,
-  });
-
-  const cellTranslation = new THREE.Vector3(1, 1, 0);
-  const renderCell = (x: number, y: number) => {
-    const plane = new THREE.Mesh(geometry, material);
-    plane.translateOnAxis(cellTranslation, 0.5);
-    plane.translateX(x - 100);
-    plane.translateY(y - 100);
-    scene.add(plane);
-  };
+  const stats = new Stats();
+  document.body.appendChild(stats.dom);
 
   let game = Game(
-    cellGrid(200, 200, () =>
+    cellGrid(size, size, () =>
       Math.random() >= 0.3 ? Cell(CellState.ALIVE) : Cell(CellState.DEAD)
     )
   );
 
-  renderer.setAnimationLoop(() => {
-    scene.children
-      .slice()
-      .forEach((child) => child.type === 'Mesh' && scene.remove(child));
+  const geometry = new THREE.PlaneGeometry(1, 1);
+  const material = new THREE.MeshBasicMaterial();
+
+  const aliveColor = new THREE.Color('#F2F2F2');
+  const deadColor = new THREE.Color('#222222');
+
+  const cellsMesh = new THREE.InstancedMesh(geometry, material, size * size);
+
+  scene.add(cellsMesh);
+  game.map((_, x) =>
+    _.map((_, y) => {
+      const dummy = new THREE.Object3D();
+      dummy.translateOnAxis(new THREE.Vector3(1, 1, 0), 0.5);
+      const translateX = x - size / 2;
+      const translateY = y - size / 2;
+      dummy.translateX(translateX);
+      dummy.translateY(translateY);
+      dummy.updateMatrix();
+      cellsMesh.setMatrixAt(x * size + y, dummy.matrix);
+      cellsMesh.setColorAt(x * size + y, deadColor);
+    })
+  );
+
+  const tick = () => {
     game.map((_, x) =>
       _.map((cell, y) => {
-        cell.state === CellState.ALIVE && renderCell(x, y);
+        cell.state === CellState.ALIVE &&
+          cellsMesh.setColorAt(x * size + y, aliveColor);
+        cell.state === CellState.DEAD &&
+          cellsMesh.setColorAt(x * size + y, deadColor);
       })
     );
+    cellsMesh.instanceColor!.needsUpdate = true;
     game = game.tick();
+  };
+
+  renderer.setAnimationLoop(() => {
+    tick();
     renderer.render(scene, camera);
+    stats.update();
   });
 </script>
 
-<body style="margin: 0; overflow: hidden;"></body>
+<body style="margin: 0; overflow: hidden;">
+  <div
+    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';  position: absolute; padding: 8px; color: teal; background: white; bottom: 0; left: 0;"
+  >
+    Try dragging
+  </div>
+</body>
