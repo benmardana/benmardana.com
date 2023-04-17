@@ -7,7 +7,12 @@ import Default from '@layouts/default.astro';
 <script>
   import { h, text, app } from 'hyperapp';
   import { every } from '@hyperapp/time';
-  import { Cell, CellState, Game, cellGrid } from './_game-of-life';
+  import {
+    Cell,
+    CellState,
+    Game,
+    cellGrid,
+  } from './_game-mutable/_game-of-life';
 
   const node = document.getElementById('app');
   if (!node) throw Error('missing app element');

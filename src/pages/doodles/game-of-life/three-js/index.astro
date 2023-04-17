@@ -2,13 +2,13 @@
   import * as THREE from 'three';
   // @ts-ignore
   import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-  // @ts-ignore
-  import Stats from 'three/addons/libs/stats.module.js';
 
-  import { Cell, CellState, Game, cellGrid } from '../_game-of-life';
+  import { Game } from './_game-of-life-fast';
+
+  import { cellGrid } from '../_game-mutable/_grid';
 
   const [width, height] = [window.innerWidth, window.innerHeight] as const;
-  const size = 500;
+  const size = 800;
 
   const scene = new THREE.Scene();
 
@@ -22,12 +22,9 @@
 
   new OrbitControls(camera, renderer.domElement);
 
-  const stats = new Stats();
-  document.body.appendChild(stats.dom);
-
   let game = Game(
     cellGrid(size, size, () =>
-      Math.random() >= 0.3 ? Cell(CellState.ALIVE) : Cell(CellState.DEAD)
+      Math.random() >= 0.25 ? 0b10000000 : 0b00000000
     )
   );
 
@@ -40,48 +37,35 @@
   const cellsMesh = new THREE.InstancedMesh(geometry, material, size * size);
 
   scene.add(cellsMesh);
-  game.map((_, x) =>
-    _.map((_, y) => {
-      const dummy = new THREE.Object3D();
-      dummy.translateOnAxis(new THREE.Vector3(1, 1, 0), 0.5);
-      const translateX = x - size / 2;
-      const translateY = y - size / 2;
-      dummy.translateX(translateX);
-      dummy.translateY(translateY);
-      dummy.updateMatrix();
-      cellsMesh.setMatrixAt(x * size + y, dummy.matrix);
-      cellsMesh.setColorAt(x * size + y, deadColor);
-    })
-  );
+  game.state().forEach((_, index) => {
+    const x = index % size;
+    const y = Math.floor(index / size);
+    const dummy = new THREE.Object3D();
+    dummy.translateOnAxis(new THREE.Vector3(1, 1, 0), 0.5);
+    const translateX = x - size / 2;
+    const translateY = y - size / 2;
+    dummy.translateX(translateX);
+    dummy.translateY(translateY);
+    dummy.updateMatrix();
+    cellsMesh.setMatrixAt(index, dummy.matrix);
+    cellsMesh.setColorAt(index, aliveColor);
+  });
 
-  const tick = () => {
-    game.map((_, x) =>
-      _.map((cell, y) => {
-        cell.state === CellState.ALIVE &&
-          cellsMesh.setColorAt(x * size + y, aliveColor);
-        cell.state === CellState.DEAD &&
-          cellsMesh.setColorAt(x * size + y, deadColor);
-      })
-    );
+  const redraw = () => {
+    game.state().forEach((cell, index) => {
+      if (cell < 0) {
+        cellsMesh.setColorAt(index, aliveColor);
+        return;
+      }
+      cellsMesh.setColorAt(index, deadColor);
+    });
     cellsMesh.instanceColor!.needsUpdate = true;
-    game = game.tick();
   };
 
-  let previous = 0;
-  let lag = 0;
-  const MS_PER_UPDATE = 100;
-  renderer.setAnimationLoop((time) => {
-    const current = time;
-    const elapsed = current - previous;
-    previous = current;
-    lag += elapsed;
-    while (lag >= MS_PER_UPDATE) {
-      console.log({ lag });
-      tick();
-      lag -= MS_PER_UPDATE;
-    }
+  renderer.setAnimationLoop(() => {
     renderer.render(scene, camera);
-    stats.update();
+    redraw();
+    game.tick();
   });
 </script>
 

@@ -54,10 +54,10 @@ const Grid = (initialState: CellGrid) => {
   };
 };
 
-const cellGrid = (
+const cellGrid = <T>(
   xLength: number,
   yLength: number,
-  callback: (x: number, y: number) => Cell
+  callback: (x: number, y: number) => T
 ) =>
   Array.from({ length: xLength }, (_, x) =>
     Array.from({ length: yLength }, (_, y) => callback(x, y))
