@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-npm install
+npm run install
 ```
 
 ## Dev
@@ -14,4 +14,8 @@ npm run dev
 
 ## Deployment
 
-This site is deployed on cloudflare pages. Upload to a build folder or link github and push.
+```bash
+npm run build
+```
+
+This site is deployed on [cloudflare pages](https://pages.cloudflare.com/).
