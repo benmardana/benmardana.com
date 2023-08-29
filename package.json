@@ -1,5 +1,5 @@
 {
-  "name": "benmcgarvey.com",
+  "name": "benmardana.com",
   "version": "1.0.0",
   "scripts": {
     "start": "wrangler pages dev --kv mailbox -- npm run dev",
@@ -9,7 +9,7 @@
     "astro": "astro",
     "test": "vitest watch"
   },
-  "author": "ben mcgarvey",
+  "author": "ben mardana",
   "license": "MIT",
   "dependencies": {
     "@astrojs/react": "^2.1.0",
