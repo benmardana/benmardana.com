@@ -2,24 +2,18 @@
   "name": "benmardana.com",
   "version": "1.0.0",
   "scripts": {
-    "start": "wrangler pages dev --kv mailbox -- npm run dev",
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro",
-    "test": "vitest watch"
+    "serve": "astro preview",
+    "astro": "astro"
   },
   "author": "ben mardana",
   "license": "MIT",
   "dependencies": {
-    "@cloudflare/workers-types": "^3.16.0",
     "@hyperapp/time": "^1.0.0",
     "@types/three": "^0.150.1",
     "astro": "^4.8.6",
     "hyperapp": "^2.0.22",
-    "swr": "^2.1.0",
-    "three": "^0.151.3",
-    "vitest": "^0.30.0",
-    "wrangler": "^2.1.10"
+    "three": "^0.151.3"
   }
 }
