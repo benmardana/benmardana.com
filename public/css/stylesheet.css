@@ -102,8 +102,8 @@ body {
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   color: var(--textcolor);
   background: var(--bgcolor);
-  padding: 64px;
-  max-width: 90ch;
+  padding: 16px;
+  max-width: 60ch;
   margin-inline: auto;
 }
 
