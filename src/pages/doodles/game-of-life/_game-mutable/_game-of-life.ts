@@ -1,5 +1,5 @@
 import { Cell, CellState } from './_cell';
-import { cellGrid, CellGrid, Grid } from './_grid';
+import { cellGrid, type CellGrid, Grid } from './_grid';
 
 function Game(initialState: CellGrid | string) {
   const parseStateString = (text: string) => {
