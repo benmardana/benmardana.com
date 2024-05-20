@@ -1,4 +1,5 @@
 ---
+import Doodles from '@components/doodles.astro';
 import Header from '@components/header.astro';
 import Intro from '@components/intro.astro';
 import Default from '@layouts/default.astro';
@@ -7,27 +8,5 @@ import Default from '@layouts/default.astro';
 <Default>
   <Header />
   <Intro />
-  <section>
-    <h2>Doodles</h2>
-    <ul>
-      <li>
-        <a href="doodles/are-we-css-nesting-module-yet"
-          >Are We CSS Nesting Module Yet?</a
-        >
-      </li>
-      <li>
-        <a href="doodles/game-of-life">Conway's Game of Life</a>
-      </li>
-      <li>
-        <a href="doodles/game-of-life/three-js"
-          >Conway's Game of Life using three.js</a
-        >
-      </li>
-      <li>
-        <a href="https://tech-radar.benmardana.com"
-          >Drag and Drop Technology Radar (WIP)</a
-        >
-      </li>
-    </ul>
-  </section>
+  <Doodles />
 </Default>

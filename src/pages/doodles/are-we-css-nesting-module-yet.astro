@@ -1,5 +1,5 @@
 ---
-import Citation from '@components/citation.astro';
+import Asterisk from '@components/asterisk.astro';
 import Header from '@components/header.astro';
 import Default from '@layouts/default.astro';
 ---
@@ -9,12 +9,11 @@ import Default from '@layouts/default.astro';
     display: block;
     white-space: pre-wrap;
     font-family: Monospace;
-    margin: var(--s1) 0;
-    padding: var(--s1);
+    margin: 16px 0;
+    padding: 16px;
     text-decoration: none;
-
     border-radius: 0.4rem;
-    box-shadow: 0 1px 2px 0 #0000001a;
+    box-shadow: 0 1px 2px 0 var(--textcolor);
     background: var(--textcolor);
     color: var(--bgcolor);
   }
@@ -85,9 +84,9 @@ import Default from '@layouts/default.astro';
     <br />
     <p>
       Nested CSS (or CSS Nesting Module) is a CSS feature that was first
-      proposed in 2021 by the W3C CSS Working group<Citation
+      proposed in 2021 by the W3C CSS Working group<Asterisk
         url="https://www.w3.org/TR/2021/WD-css-nesting-1-20210831/"
-      /> and began to be supported by major browsers in early 2023.<Citation
+      /> and began to be supported by major browsers in early 2023.<Asterisk
         url="https://bugs.chromium.org/p/chromium/issues/detail?id=1095675"
       />
     </p>
@@ -95,7 +94,7 @@ import Default from '@layouts/default.astro';
     <p>
       It follows popular css extension languages such as Sass and Less, allowing
       css rules to be nested inside of each other - reducing duplication of
-      selectors, allowing terser and more readable style sheets.<Citation
+      selectors, allowing terser and more readable style sheets.<Asterisk
         url="https://sass-lang.com/guide"
       />
     </p>
@@ -103,7 +102,7 @@ import Default from '@layouts/default.astro';
     <p>
       The CSS Nesting Module provides a specification for browsers to implement
       that allows for nested styles to be written directly in css files and
-      therefore removes the need for pre-processing.<Citation
+      therefore removes the need for pre-processing.<Asterisk
         url="https://www.w3.org/TR/css-nesting-1/"
       />
     </p>
@@ -129,9 +128,9 @@ import Default from '@layouts/default.astro';
       }
     </style>
     <aside>
-      The style above is what powers the compatibility check at the top of this
-      page! As in, literally that style tag - it's a partial quine. Go ahead and
-      inspect it to see for yourself.<Citation
+      The style block above is what powers the compatibility check at the top of
+      this page - it's a partial quine. Go ahead and inspect it to see for
+      yourself<Asterisk
         url="https://secretgeek.github.io/html_wysiwyg/html.html"
       />
     </aside>
