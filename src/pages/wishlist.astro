@@ -2,48 +2,11 @@
 import Header from '@components/header.astro';
 import Default from '@layouts/default.astro';
 
-const wishlistItems = [
-  {
-    title: 'Mechanical Keyboard',
-    description: 'A nice mechanical keyboard with Cherry MX switches for better typing experience.',
-    links: [
-      { title: 'Keychron K2', url: 'https://www.keychron.com/products/keychron-k2' },
-      { title: 'Das Keyboard', url: 'https://www.daskeyboard.com/' },
-    ],
-  },
-  {
-    title: 'Standing Desk',
-    description: 'An adjustable standing desk to improve posture and health while working.',
-    links: [
-      { title: 'Uplift Desk', url: 'https://www.upliftdesk.com/' },
-      { title: 'Flexispot', url: 'https://www.flexispot.com/' },
-    ],
-  },
-  {
-    title: 'Noise-Cancelling Headphones',
-    description: 'Quality headphones for focused work and enjoying music without distractions.',
-    links: [
-      { title: 'Sony WH-1000XM5', url: 'https://electronics.sony.com/audio/headphones/headband/p/wh1000xm5-b' },
-      { title: 'Bose QuietComfort', url: 'https://www.bose.com/c/headphones/noise-cancelling-headphones' },
-    ],
-  },
-  {
-    title: 'E-Reader',
-    description: 'A dedicated e-reader device for comfortable reading without screen fatigue.',
-    links: [
-      { title: 'Kindle Paperwhite', url: 'https://www.amazon.com/kindle-paperwhite' },
-      { title: 'Kobo Libra', url: 'https://www.kobo.com/us/en/ereaders' },
-    ],
-  },
-  {
-    title: 'Indoor Plants',
-    description: 'Some low-maintenance plants to bring life and freshness to the workspace.',
-    links: [
-      { title: 'The Sill', url: 'https://www.thesill.com/' },
-      { title: 'Bloomscape', url: 'https://bloomscape.com/' },
-    ],
-  },
-];
+const wishlistItems: {
+  title: string;
+  description: string;
+  links?: { title: string; url: string }[];
+}[] = [];
 ---
 
 <Default>
