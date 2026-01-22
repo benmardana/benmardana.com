@@ -1,0 +1,82 @@
+---
+import Header from '@components/header.astro';
+import Default from '@layouts/default.astro';
+
+const wishlistItems = [
+  {
+    title: 'Mechanical Keyboard',
+    description: 'A nice mechanical keyboard with Cherry MX switches for better typing experience.',
+  },
+  {
+    title: 'Standing Desk',
+    description: 'An adjustable standing desk to improve posture and health while working.',
+  },
+  {
+    title: 'Noise-Cancelling Headphones',
+    description: 'Quality headphones for focused work and enjoying music without distractions.',
+  },
+  {
+    title: 'E-Reader',
+    description: 'A dedicated e-reader device for comfortable reading without screen fatigue.',
+  },
+  {
+    title: 'Indoor Plants',
+    description: 'Some low-maintenance plants to bring life and freshness to the workspace.',
+  },
+];
+---
+
+<Default>
+  <Header />
+  <section>
+    <h2>Wishlist</h2>
+    <p>A collection of things I'm hoping to get someday.</p>
+  </section>
+  <main>
+    <ul class="wishlist">
+      {
+        wishlistItems.map((item) => (
+          <li class="wishlist-item">
+            <strong>{item.title}</strong>
+            <p>{item.description}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</Default>
+
+<style>
+  h2 {
+    margin-block-end: 8px;
+  }
+
+  .wishlist {
+    list-style: none;
+    padding: 0;
+    margin-block-start: 16px;
+  }
+
+  .wishlist-item {
+    margin-block-end: 16px;
+    padding-block-end: 16px;
+    border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  }
+
+  .wishlist-item:last-child {
+    border-bottom: none;
+    margin-block-end: 0;
+    padding-block-end: 0;
+  }
+
+  .wishlist-item strong {
+    display: block;
+    font-weight: 500;
+  }
+
+  .wishlist-item p {
+    margin-block-start: 4px;
+    opacity: 0.8;
+    font-size: 0.95em;
+  }
+</style>
