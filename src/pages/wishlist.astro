@@ -122,11 +122,69 @@ const wishlist: WishlistEntry[] = [
       })()
     }
   </main>
+
+  <section class="example-section">
+    <h2>Unfiltered List (Original Order)</h2>
+    <p>This shows the wishlist in the order it was defined, without splitting sections from standalone items.</p>
+  </section>
+  <main>
+    {
+      wishlist.map((entry) =>
+        isSection(entry) ? (
+          <section class="wishlist-section">
+            <h3>{entry.section}</h3>
+            <ul class="wishlist">
+              {entry.items.map((item) => (
+                <li class="wishlist-item">
+                  <strong>{item.title}</strong>
+                  <p>{item.description}</p>
+                  {item.links && item.links.length > 0 && (
+                    <ul class="wishlist-links">
+                      {item.links.map((link) => (
+                        <li>
+                          <a href={link.url}>{link.title}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : (
+          <section class="wishlist-section">
+            <h3>—</h3>
+            <ul class="wishlist">
+              <li class="wishlist-item">
+                <strong>{entry.title}</strong>
+                <p>{entry.description}</p>
+                {entry.links && entry.links.length > 0 && (
+                  <ul class="wishlist-links">
+                    {entry.links.map((link) => (
+                      <li>
+                        <a href={link.url}>{link.title}</a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            </ul>
+          </section>
+        )
+      )
+    }
+  </main>
 </Default>
 
 <style>
   h2 {
     margin-block-end: 8px;
+  }
+
+  .example-section {
+    margin-block-start: 48px;
+    padding-block-start: 24px;
+    border-top: 2px solid color-mix(in srgb, currentColor 30%, transparent);
   }
 
   .wishlist-section {
