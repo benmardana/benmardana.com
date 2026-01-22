@@ -115,16 +115,10 @@ const wishlistItems = [
     margin-block-start: 8px;
     display: flex;
     flex-wrap: wrap;
-    gap: 8px 16px;
     font-size: 0.9em;
   }
 
-  .wishlist-links li {
-    display: inline;
-  }
-
-  .wishlist-links li::before {
-    content: '→ ';
-    opacity: 0.5;
+  .wishlist-links li:not(:last-child)::after {
+    content: ', ';
   }
 </style>
