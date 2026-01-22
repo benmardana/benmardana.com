@@ -2,11 +2,24 @@
 import Header from '@components/header.astro';
 import Default from '@layouts/default.astro';
 
-const wishlistItems: {
+type WishlistItem = {
   title: string;
   description: string;
   links?: { title: string; url: string }[];
-}[] = [];
+};
+
+type WishlistSection = {
+  section: string;
+  items: WishlistItem[];
+};
+
+type WishlistEntry = WishlistItem | WishlistSection;
+
+const isSection = (entry: WishlistEntry): entry is WishlistSection => {
+  return 'section' in entry;
+};
+
+const wishlist: WishlistEntry[] = [];
 ---
 
 <Default>
@@ -16,25 +29,48 @@ const wishlistItems: {
     <p>Things and stuff</p>
   </section>
   <main>
-    <ul class="wishlist">
-      {
-        wishlistItems.map((item) => (
-          <li class="wishlist-item">
-            <strong>{item.title}</strong>
-            <p>{item.description}</p>
-            {item.links && item.links.length > 0 && (
-              <ul class="wishlist-links">
-                {item.links.map((link) => (
-                  <li>
-                    <a href={link.url}>{link.title}</a>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))
-      }
-    </ul>
+    {
+      wishlist.map((entry) =>
+        isSection(entry) ? (
+          <section class="wishlist-section">
+            <h3>{entry.section}</h3>
+            <ul class="wishlist">
+              {entry.items.map((item) => (
+                <li class="wishlist-item">
+                  <strong>{item.title}</strong>
+                  <p>{item.description}</p>
+                  {item.links && item.links.length > 0 && (
+                    <ul class="wishlist-links">
+                      {item.links.map((link) => (
+                        <li>
+                          <a href={link.url}>{link.title}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : (
+          <ul class="wishlist wishlist-standalone">
+            <li class="wishlist-item">
+              <strong>{entry.title}</strong>
+              <p>{entry.description}</p>
+              {entry.links && entry.links.length > 0 && (
+                <ul class="wishlist-links">
+                  {entry.links.map((link) => (
+                    <li>
+                      <a href={link.url}>{link.title}</a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          </ul>
+        )
+      )
+    }
   </main>
 </Default>
 
@@ -43,9 +79,24 @@ const wishlistItems: {
     margin-block-end: 8px;
   }
 
+  .wishlist-section {
+    margin-block-start: 24px;
+  }
+
+  .wishlist-section h3 {
+    margin-block-end: 12px;
+    font-size: 1.1em;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+
   .wishlist {
     list-style: none;
     padding: 0;
+    margin: 0;
+  }
+
+  .wishlist-standalone {
     margin-block-start: 16px;
   }
 
