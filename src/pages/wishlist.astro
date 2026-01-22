@@ -2,11 +2,24 @@
 import Header from '@components/header.astro';
 import Default from '@layouts/default.astro';
 
-const wishlistItems: {
+type WishlistItem = {
   title: string;
   description: string;
   links?: { title: string; url: string }[];
-}[] = [];
+};
+
+type WishlistSection = {
+  section: string;
+  items: WishlistItem[];
+};
+
+type WishlistEntry = WishlistItem | WishlistSection;
+
+const isSection = (entry: WishlistEntry): entry is WishlistSection => {
+  return 'section' in entry;
+};
+
+const wishlist: WishlistEntry[] = [];
 ---
 
 <Default>
@@ -16,25 +29,57 @@ const wishlistItems: {
     <p>Things and stuff</p>
   </section>
   <main>
-    <ul class="wishlist">
-      {
-        wishlistItems.map((item) => (
-          <li class="wishlist-item">
-            <strong>{item.title}</strong>
-            <p>{item.description}</p>
-            {item.links && item.links.length > 0 && (
-              <ul class="wishlist-links">
-                {item.links.map((link) => (
-                  <li>
-                    <a href={link.url}>{link.title}</a>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))
-      }
-    </ul>
+    {
+      wishlist.filter(isSection).map((entry) => (
+        <section class="wishlist-section">
+          <h3>{entry.section}</h3>
+          <ul class="wishlist">
+            {entry.items.map((item) => (
+              <li class="wishlist-item">
+                <strong>{item.title}</strong>
+                <p>{item.description}</p>
+                {item.links && item.links.length > 0 && (
+                  <ul class="wishlist-links">
+                    {item.links.map((link) => (
+                      <li>
+                        <a href={link.url}>{link.title}</a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+    {
+      (() => {
+        const miscItems = wishlist.filter((entry): entry is WishlistItem => !isSection(entry));
+        return miscItems.length > 0 && (
+          <section class="wishlist-section">
+            <h3>Misc</h3>
+            <ul class="wishlist">
+              {miscItems.map((item) => (
+                <li class="wishlist-item">
+                  <strong>{item.title}</strong>
+                  <p>{item.description}</p>
+                  {item.links && item.links.length > 0 && (
+                    <ul class="wishlist-links">
+                      {item.links.map((link) => (
+                        <li>
+                          <a href={link.url}>{link.title}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })()
+    }
   </main>
 </Default>
 
@@ -43,22 +88,39 @@ const wishlistItems: {
     margin-block-end: 8px;
   }
 
+  .wishlist-section {
+    margin-block-start: 24px;
+  }
+
+  .wishlist-section h3 {
+    margin-block-end: 12px;
+    font-size: 1.4em;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+
   .wishlist {
     list-style: none;
     padding: 0;
-    margin-block-start: 16px;
+    margin: 0;
+  }
+
+  .wishlist-section {
+    padding-block-end: 24px;
+    border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  }
+
+  .wishlist-section:last-child {
+    border-bottom: none;
+    padding-block-end: 0;
   }
 
   .wishlist-item {
     margin-block-end: 16px;
-    padding-block-end: 16px;
-    border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
   }
 
   .wishlist-item:last-child {
-    border-bottom: none;
     margin-block-end: 0;
-    padding-block-end: 0;
   }
 
   .wishlist-item strong {
