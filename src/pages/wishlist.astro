@@ -19,48 +19,7 @@ const isSection = (entry: WishlistEntry): entry is WishlistSection => {
   return 'section' in entry;
 };
 
-const wishlist: WishlistEntry[] = [
-  {
-    title: "Standalone Item Example",
-    description: "This is a standalone item without a section",
-    links: [{ title: "Example Link", url: "https://example.com" }]
-  },
-  {
-    section: "Electronics",
-    items: [
-      {
-        title: "Mechanical Keyboard",
-        description: "A nice mechanical keyboard with Cherry MX switches",
-        links: [
-          { title: "Amazon", url: "https://amazon.com" },
-          { title: "Manufacturer", url: "https://example.com" }
-        ]
-      },
-      {
-        title: "USB-C Hub",
-        description: "Multi-port hub for laptop connectivity"
-      }
-    ]
-  },
-  {
-    section: "Books",
-    items: [
-      {
-        title: "Design Patterns",
-        description: "Classic software engineering book"
-      },
-      {
-        title: "The Pragmatic Programmer",
-        description: "Tips and techniques for modern software development",
-        links: [{ title: "Bookshop", url: "https://bookshop.org" }]
-      }
-    ]
-  },
-  {
-    title: "Another Standalone Item",
-    description: "Items can appear anywhere in the list, not just at the top"
-  }
-];
+const wishlist: WishlistEntry[] = [];
 ---
 
 <Default>
