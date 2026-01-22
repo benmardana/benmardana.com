@@ -71,12 +71,37 @@ const wishlist: WishlistEntry[] = [
   </section>
   <main>
     {
-      wishlist.map((entry) =>
-        isSection(entry) ? (
+      wishlist.filter(isSection).map((entry) => (
+        <section class="wishlist-section">
+          <h3>{entry.section}</h3>
+          <ul class="wishlist">
+            {entry.items.map((item) => (
+              <li class="wishlist-item">
+                <strong>{item.title}</strong>
+                <p>{item.description}</p>
+                {item.links && item.links.length > 0 && (
+                  <ul class="wishlist-links">
+                    {item.links.map((link) => (
+                      <li>
+                        <a href={link.url}>{link.title}</a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+    {
+      (() => {
+        const miscItems = wishlist.filter((entry): entry is WishlistItem => !isSection(entry));
+        return miscItems.length > 0 && (
           <section class="wishlist-section">
-            <h3>{entry.section}</h3>
+            <h3>Misc</h3>
             <ul class="wishlist">
-              {entry.items.map((item) => (
+              {miscItems.map((item) => (
                 <li class="wishlist-item">
                   <strong>{item.title}</strong>
                   <p>{item.description}</p>
@@ -93,24 +118,8 @@ const wishlist: WishlistEntry[] = [
               ))}
             </ul>
           </section>
-        ) : (
-          <ul class="wishlist wishlist-standalone">
-            <li class="wishlist-item">
-              <strong>{entry.title}</strong>
-              <p>{entry.description}</p>
-              {entry.links && entry.links.length > 0 && (
-                <ul class="wishlist-links">
-                  {entry.links.map((link) => (
-                    <li>
-                      <a href={link.url}>{link.title}</a>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          </ul>
-        )
-      )
+        );
+      })()
     }
   </main>
 </Default>
@@ -135,10 +144,6 @@ const wishlist: WishlistEntry[] = [
     list-style: none;
     padding: 0;
     margin: 0;
-  }
-
-  .wishlist-standalone {
-    margin-block-start: 16px;
   }
 
   .wishlist-item {
