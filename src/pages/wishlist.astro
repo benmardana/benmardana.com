@@ -19,7 +19,38 @@ const isSection = (entry: WishlistEntry): entry is WishlistSection => {
   return 'section' in entry;
 };
 
-const wishlist: WishlistEntry[] = [];
+const wishlist: WishlistEntry[] = [
+  {
+    section: 'Gaming',
+    items: [
+      {
+        title: 'Steam Deck / Legion Go S',
+        description: 'Handheld gaming PC',
+      },
+      {
+        title: 'Retroid Pocket 6',
+        description: 'Handheld retro gaming device',
+      },
+      {
+        title: 'AYN Thor',
+        description: 'Handheld gaming device',
+      },
+      {
+        title: 'Steam Machine',
+        description: 'Living room gaming PC',
+      },
+    ],
+  },
+  {
+    section: 'Books',
+    items: [
+      {
+        title: 'The Expanse Series',
+        description: 'Science fiction novel series by James S. A. Corey',
+      },
+    ],
+  },
+];
 ---
 
 <Default>
